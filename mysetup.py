@@ -4,7 +4,7 @@ setup(
     windows = [
     {
         "script": "main.py",
-        "icon_resources": [(1, "ico/Rename.ico")]
+        "icon_resources": [(1, "ico/rename.ico")]
     }
     ],
 )

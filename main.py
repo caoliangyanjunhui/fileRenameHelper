@@ -11,6 +11,7 @@ class ClientFrame(wx.Frame):
 		wx.Frame.__init__(
 			self, None, -1, u'文件重命名工具 v0.3', size=(800,600)
 			)
+		self.addIcon()
 		self.addStatusBar()
 		self.splitWindow = wx.SplitterWindow(self)
 		self.mainPanel = self.newMainPanel(self.splitWindow)
@@ -45,6 +46,10 @@ class ClientFrame(wx.Frame):
 	def addStatusBar(self):
 		self.statusBar = wx.StatusBar(self)
 		self.SetStatusBar(self.statusBar)
+
+	def addIcon(self):
+		icon = wx.Icon('ico/rename32.ico', wx.BITMAP_TYPE_ICO)
+		self.SetIcon(icon)
 
 	def bindEvents(self):
 		self.buttonBox.buttonOpen.Bind(wx.EVT_BUTTON, self.onOpenButtonClick)
