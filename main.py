@@ -3,6 +3,8 @@
 import wx
 import buttonPanel
 import grid
+import renameFile
+import csvHandler
 
 class ClientFrame(wx.Frame):
 	def __init__(self):
@@ -43,6 +45,7 @@ class ClientFrame(wx.Frame):
 
 	def bindEvents(self):
 		self.buttonBox.buttonOpen.Bind(wx.EVT_BUTTON, self.onOpenButtonClick)
+		self.buttonBox.buttonExport.Bind(wx.EVT_BUTTON, self.onExportButtonClick)
 
 	def onOpenButtonClick(self, evt):
 		dlg = wx.DirDialog(self, u"选择要批处理的文件夹",
@@ -52,8 +55,13 @@ class ClientFrame(wx.Frame):
 						   )
 		if dlg.ShowModal() == wx.ID_OK:
 			self.folderPath = dlg.GetPath()
-			print 'folder selected: ', self.folderPath
+			self.fileList, self.showList = renameFile.FileReader().readAllFrom(self.folderPath)
+			self.grid.setData(self.showList)
 		dlg.Destroy()
+
+	def onExportButtonClick(self, evt):
+		csvHandler.CSV().write(self.showList)
+
 
 
 def main():

@@ -8,7 +8,7 @@ class FileDataTable(gridlib.PyGridTableBase):
     def __init__(self, data=[]):
         gridlib.PyGridTableBase.__init__(self)
         self.memoryOnlyList = [0,]
-        self.colLabels = [u'文件名', u'预览文件名', u'二级文件夹', u'三级文件夹']
+        self.colLabels = [u'文件名', u'预览文件名', u'二级文件夹', u'三级文件夹', u'文件路径']
         self.initDataTypes()
         self.data = data
 
@@ -18,6 +18,7 @@ class FileDataTable(gridlib.PyGridTableBase):
             gridlib.GRID_VALUE_STRING, #预览文件名
             gridlib.GRID_VALUE_STRING, #二级文件夹
             gridlib.GRID_VALUE_STRING, #三级文件夹
+            gridlib.GRID_VALUE_STRING, #文件路径
             ]
 
 
@@ -98,14 +99,13 @@ class FileTableGrid(gridlib.Grid):
             self.SetColAttr(column, attr)
 
     def getDefaultData(self):
-        return ['111a', '222d', '33ef', '44gh', '55de']
+        return ['     ',]
 
     def setData(self, dataList):
         table = self.GetTable()
         table.data = None
         table.data = dataList
-        self.SetTable(table)
-        self.AutoSizeColumns(True)
+        self.reshow(table)
 
     def onLabelLeftClick(self, event):
         event.Skip(False) # 避免单击表格头部，导致所有条目被选中
