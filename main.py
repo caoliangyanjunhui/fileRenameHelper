@@ -42,7 +42,18 @@ class ClientFrame(wx.Frame):
 		return infoPanel
 
 	def bindEvents(self):
-		pass
+		self.buttonBox.buttonOpen.Bind(wx.EVT_BUTTON, self.onOpenButtonClick)
+
+	def onOpenButtonClick(self, evt):
+		dlg = wx.DirDialog(self, u"选择要批处理的文件夹",
+						  style=wx.DD_DEFAULT_STYLE
+						   | wx.DD_DIR_MUST_EXIST
+						   #| wx.DD_CHANGE_DIR
+						   )
+		if dlg.ShowModal() == wx.ID_OK:
+			self.folderPath = dlg.GetPath()
+			print 'folder selected: ', self.folderPath
+		dlg.Destroy()
 
 
 def main():

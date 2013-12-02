@@ -17,8 +17,8 @@ class ButtonBox(wx.Panel):
 		self.SetSizer(sizer)
 
 	def addOpenButton(self, sizer):
-		buttonOpen = wx.Button(self, -1, u"选择文件夹")
-		sizer.Add(buttonOpen, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
+		self.buttonOpen = wx.Button(self, -1, u"选择文件夹")
+		sizer.Add(self.buttonOpen, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
 
 
 	def addRenameGroup(self, sizer):
@@ -30,12 +30,12 @@ class ButtonBox(wx.Panel):
 		sizer.Add(self.numGroup, flag=wx.LEFT, border=1)
 
 	def addRenameButton(self, sizer):
-		buttonRename = wx.Button(self, -1, u"执行重命名")
-		sizer.Add(buttonRename, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
+		self.buttonRename = wx.Button(self, -1, u"执行重命名")
+		sizer.Add(self.buttonRename, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
 
 	def addExportButton(self, sizer):
-		buttonExport = wx.Button(self, -1, u"导出Excel")
-		sizer.Add(buttonExport, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
+		self.buttonExport = wx.Button(self, -1, u"导出Excel")
+		sizer.Add(self.buttonExport, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
 
 
 #---------------------------------------------------------------------------
