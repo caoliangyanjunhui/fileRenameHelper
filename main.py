@@ -11,6 +11,10 @@ class ClientFrame(wx.Frame):
 		wx.Frame.__init__(
 			self, None, -1, u'文件重命名工具 v0.3', size=(800,600)
 			)
+		self.fileList = None
+		self.showList = None
+		self.filePath = None
+
 		self.addIcon()
 		self.addStatusBar()
 		self.splitWindow = wx.SplitterWindow(self)
@@ -19,6 +23,7 @@ class ClientFrame(wx.Frame):
 		self.splitWindow.SplitHorizontally(self.mainPanel, self.infoPanel, -100)
 		self.splitWindow.SetMinimumPaneSize(20)
 		self.bindEvents()
+
 
 	def newMainPanel(self, parent):
 		mainPanel = wx.Panel(parent, -1)
@@ -67,12 +72,17 @@ class ClientFrame(wx.Frame):
 			self.fileList, self.showList = renameFile.FileReader().readAllFrom(self.folderPath)
 			self.grid.setData(self.showList)
 			self.showInfo(self.folderPath)
-			self.showStatus(u'文件夹打开成功')
+			self.showStatus(u'打开成功')
 		else:
-			self.showStatus(u'未打开有效文件夹')
+			self.showInfo(u'未打开有效文件夹')
+			self.showStatus(u'取消')
 		dlg.Destroy()
 
 	def onExportButtonClick(self, evt):
+		if not self.showList:
+			self.showInfo(u'尚未指定需要处理的文件夹，无数据可供导出')
+			self.showStatus(u'导出失败')
+			return
 		try:
 			filePath = csvHandler.CSV().write(self.showList)
 		except Exception, e:
