@@ -12,7 +12,8 @@ class FileReader(object):
 			childPath = pathJoin(folderPath, child)
 			if os.path.isfile(childPath):
 				fileDict = {}
-				fileDict['fileName'] = fileNameWithoutExtention(child)
+				fileDict['fileName'] = child
+				fileDict['fileHead'] = fileNameWithoutExtention(child)
 				fileDict['filePath'] = childPath
 				fileDict['folderName'] = folderName
 				fileDict['level'] = level
@@ -30,8 +31,8 @@ class FileReader(object):
 	def listToShow(self, fileList):
 		recordList = []
 		for fileDict in fileList:
-			record = [	fileDict['fileName'], 
-						fileDict['fileName'], 
+			record = [	fileDict['fileHead'], 
+						'', 
 						fileDict['level2Name'],
 						fileDict['level3Name'],
 						fileDict['filePath'],
