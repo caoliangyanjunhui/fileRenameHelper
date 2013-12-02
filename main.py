@@ -9,7 +9,7 @@ import csvHandler
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'办证利器-业务管理 v0.0.4', size=(800,600)
+			self, None, -1, u'文件重命名工具 v0.2', size=(800,600)
 			)
 
 		self.splitWindow = wx.SplitterWindow(self)
