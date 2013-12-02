@@ -13,7 +13,7 @@ class ClientFrame(wx.Frame):
 			)
 		self.fileList = None
 		self.showList = None
-		self.filePath = None
+		self.folderPath = None
 
 		self.addIcon()
 		self.addStatusBar()
@@ -69,6 +69,11 @@ class ClientFrame(wx.Frame):
 						   )
 		if dlg.ShowModal() == wx.ID_OK:
 			self.folderPath = dlg.GetPath()
+
+		dlg.Destroy()
+
+		if self.folderPath:
+			self.showStatus(u'正在扫描文件……')
 			self.fileList, self.showList = renameFile.FileReader().readAllFrom(self.folderPath)
 			self.grid.setData(self.showList)
 			self.showInfo(self.folderPath)
@@ -76,7 +81,6 @@ class ClientFrame(wx.Frame):
 		else:
 			self.showInfo(u'未打开有效文件夹')
 			self.showStatus(u'取消')
-		dlg.Destroy()
 
 	def onExportButtonClick(self, evt):
 		if not self.showList:
