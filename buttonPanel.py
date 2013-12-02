@@ -10,9 +10,9 @@ class ButtonBox(wx.Panel):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
 		self.addOpenButton(sizer)
-		self.addRenameGroup(sizer)
-		self.addNumGroup(sizer)
-		self.addRenameButton(sizer)
+		#self.addRenameGroup(sizer)
+		#self.addNumGroup(sizer)
+		#self.addRenameButton(sizer)
 		self.addExportButton(sizer)
 		self.SetSizer(sizer)
 

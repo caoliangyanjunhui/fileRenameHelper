@@ -40,7 +40,7 @@ class FileReader(object):
 		return recordList
 
 	def readAllFrom(self, folderPath):
-		fileList = self.fileUnderPath(folderPath)
+		fileList = self.fileUnderPath(folderPath, fileList=[])
 		showList = self.listToShow(fileList)
 		return fileList, showList
 

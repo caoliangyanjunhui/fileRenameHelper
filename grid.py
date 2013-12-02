@@ -105,6 +105,7 @@ class FileTableGrid(gridlib.Grid):
         table = self.GetTable()
         table.data = None
         table.data = dataList
+        print len(dataList)
         self.reshow(table)
 
     def onLabelLeftClick(self, event):
