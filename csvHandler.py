@@ -1,19 +1,20 @@
 # -*- coding: UTF-8 -*-
 
 from fileHelper import saveTextFile
+import os
+from pathHelper import pathJoin
 
 class CSV(object):
 	def write(self, dataList):
 		text = self.dataListToText(dataList)
-		print text
-		saveTextFile('export.csv', text)
+		filePath = pathJoin(os.getcwd(), u'导出文件表格.csv')
+		saveTextFile(filePath, text)
+		return filePath
 
 	def dataListToText(self, dataList):
 		text = ''
 		for item in dataList:
-			print
 			line = ','.join(item)
-			print line
 			text += line + '\n'
 		return text
 

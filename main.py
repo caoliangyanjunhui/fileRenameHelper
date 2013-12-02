@@ -48,6 +48,7 @@ class ClientFrame(wx.Frame):
 		self.buttonBox.buttonExport.Bind(wx.EVT_BUTTON, self.onExportButtonClick)
 
 	def onOpenButtonClick(self, evt):
+		self.folderPath = u'未打开有效文件夹'
 		dlg = wx.DirDialog(self, u"选择要批处理的文件夹",
 						  style=wx.DD_DEFAULT_STYLE
 						   | wx.DD_DIR_MUST_EXIST
@@ -58,10 +59,18 @@ class ClientFrame(wx.Frame):
 			self.fileList, self.showList = renameFile.FileReader().readAllFrom(self.folderPath)
 			self.grid.setData(self.showList)
 		dlg.Destroy()
+		self.showInfo(self.folderPath)
 
 	def onExportButtonClick(self, evt):
-		csvHandler.CSV().write(self.showList)
+		filePath = csvHandler.CSV().write(self.showList)
+		self.showInfo(filePath)
 
+	def showInfo(self, text):
+		if not text: return
+		try:
+			self.infoText.SetValue(text)
+		except Exception, e:
+			self.infoText.SetValue(str(e))
 
 
 def main():

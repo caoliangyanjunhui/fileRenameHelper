@@ -6,7 +6,7 @@ import localEncode
 
 
 def pathJoin(parentPath, childNmae):
-	return os.path.join( localEncode.localEncodeText(parentPath), localEncode.localEncodeText(childNmae) )
+	return os.path.abspath(os.path.join( localEncode.localEncodeText(parentPath), localEncode.localEncodeText(childNmae) ))
 
 def copyToPath(sourcePath, destinationPath):
 	try:
