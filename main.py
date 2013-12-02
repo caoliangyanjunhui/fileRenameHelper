@@ -9,9 +9,9 @@ import csvHandler
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'文件重命名工具 v0.2', size=(800,600)
+			self, None, -1, u'文件重命名工具 v0.3', size=(800,600)
 			)
-
+		self.addStatusBar()
 		self.splitWindow = wx.SplitterWindow(self)
 		self.mainPanel = self.newMainPanel(self.splitWindow)
 		self.infoPanel = self.newInfoPanel(self.splitWindow)
@@ -40,15 +40,18 @@ class ClientFrame(wx.Frame):
 		self.infoText = wx.TextCtrl(infoPanel, -1, style=wx.TE_MULTILINE)
 		vbox.Add(self.infoText, proportion=1, flag=wx.EXPAND | wx.ALL)
 		infoPanel.SetSizerAndFit(vbox)
-
 		return infoPanel
+
+	def addStatusBar(self):
+		self.statusBar = wx.StatusBar(self)
+		self.SetStatusBar(self.statusBar)
 
 	def bindEvents(self):
 		self.buttonBox.buttonOpen.Bind(wx.EVT_BUTTON, self.onOpenButtonClick)
 		self.buttonBox.buttonExport.Bind(wx.EVT_BUTTON, self.onExportButtonClick)
 
 	def onOpenButtonClick(self, evt):
-		self.folderPath = u'未打开有效文件夹'
+		self.folderPath = None
 		dlg = wx.DirDialog(self, u"选择要批处理的文件夹",
 						  style=wx.DD_DEFAULT_STYLE
 						   | wx.DD_DIR_MUST_EXIST
@@ -58,12 +61,21 @@ class ClientFrame(wx.Frame):
 			self.folderPath = dlg.GetPath()
 			self.fileList, self.showList = renameFile.FileReader().readAllFrom(self.folderPath)
 			self.grid.setData(self.showList)
+			self.showInfo(self.folderPath)
+			self.showStatus(u'文件夹打开成功')
+		else:
+			self.showStatus(u'未打开有效文件夹')
 		dlg.Destroy()
-		self.showInfo(self.folderPath)
 
 	def onExportButtonClick(self, evt):
-		filePath = csvHandler.CSV().write(self.showList)
+		try:
+			filePath = csvHandler.CSV().write(self.showList)
+		except Exception, e:
+			self.infoText.SetValue(str(e))
+			self.showStatus(u'导出失败')
+			return
 		self.showInfo(filePath)
+		self.showStatus(u'导出完成')
 
 	def showInfo(self, text):
 		if not text: return
@@ -71,6 +83,9 @@ class ClientFrame(wx.Frame):
 			self.infoText.SetValue(text)
 		except Exception, e:
 			self.infoText.SetValue(str(e))
+
+	def showStatus(self, text):
+		self.statusBar.SetStatusText(text, 0)
 
 
 def main():
