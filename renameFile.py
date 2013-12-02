@@ -2,7 +2,7 @@
 
 import os
 from localEncode import localEncodeText, unicodeFromLocalEncode
-from pathHelper import pathJoin, parentPath
+from pathHelper import pathJoin, parentPath, fileNameWithoutExtention
 
 class FileReader(object):
 	def fileUnderPath(self, folderPath, folderName='', level=1, fileList=[]):
@@ -12,7 +12,7 @@ class FileReader(object):
 			childPath = pathJoin(folderPath, child)
 			if os.path.isfile(childPath):
 				fileDict = {}
-				fileDict['fileName'] = child
+				fileDict['fileName'] = fileNameWithoutExtention(child)
 				fileDict['filePath'] = childPath
 				fileDict['folderName'] = folderName
 				fileDict['level'] = level

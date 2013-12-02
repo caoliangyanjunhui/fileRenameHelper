@@ -89,3 +89,13 @@ def readText(filePath):
 	finally:
 		f.close()
 	return localEncode.unicodeFromLocalEncode(text)
+
+def fileNameWithoutExtention(fileName):
+	name, ext = os.path.splitext(fileName)
+	return name
+
+def __test():
+	print fileNameWithoutExtention('123.txt')
+
+if __name__ == '__main__':
+	__test()
