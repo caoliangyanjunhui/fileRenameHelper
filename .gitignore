@@ -1,5 +1,6 @@
 python_log.txt
 
+*.rar
 *.csv
 
 Thumbs.db
