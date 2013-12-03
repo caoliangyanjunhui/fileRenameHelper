@@ -49,6 +49,10 @@ class NumPanel(wx.Panel):
 
 	def getStartNum(self):
 		return self.startNum.GetValue()
+
+	def reset(self):
+		self.radioBox.SetSelection(0)
+		self.startNum.SetValue('')
 #---------------------------------------------------------------------------
 class TestFrame(wx.Frame):
 	def __init__(self):

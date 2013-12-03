@@ -10,7 +10,7 @@ import os
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'文件重命名工具 v0.9', size=(1000,600)
+			self, None, -1, u'文件重命名工具 v0.10', size=(1000,600)
 			)
 		self.fileList = []
 		self.showList = []
@@ -138,6 +138,7 @@ class ClientFrame(wx.Frame):
 		operations = self.getOperations()
 		self.fileList, self.showList = renameFile.FileRename(self.fileList, operations).preview()
 		self.grid.setData(self.showList)
+		self.buttonBox.reset()
 
 	def rename(self):
 		renameFile.FileRename(self.fileList).excute()

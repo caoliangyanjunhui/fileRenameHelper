@@ -49,6 +49,9 @@ class ButtonBox(wx.Panel):
 		self.buttonExport = wx.Button(self, -1, u"导出Excel")
 		sizer.Add(self.buttonExport, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
 
+	def reset(self):
+		self.renameGroup.reset()
+		self.numGroup.reset()
 
 #---------------------------------------------------------------------------
 class TestFrame(wx.Frame):

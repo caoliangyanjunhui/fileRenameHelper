@@ -31,6 +31,10 @@ class RenamePanel(wx.Panel):
 	def getNewName(self):
 		return self.newName.GetValue()
 
+	def reset(self):
+		self.radioBox.SetSelection(0)
+		self.newName.SetValue('')
+
 
 #---------------------------------------------------------------------------
 class TestFrame(wx.Frame):

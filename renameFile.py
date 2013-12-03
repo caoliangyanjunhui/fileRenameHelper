@@ -105,7 +105,6 @@ class FileRename(object):
 
 	def addNamePrefix(self, prefix):
 		for fileDict in self.fileList:
-			print type(prefix), type(fileDict['newHead'])
 			fileDict['newHead'] = prefix + fileDict['newHead']
 
 	def addNamePostfix(self, postfix):
