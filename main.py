@@ -5,6 +5,7 @@ import buttonPanel
 import grid
 import renameFile
 import csvHandler
+import os
 
 class ClientFrame(wx.Frame):
 	def __init__(self):
@@ -14,6 +15,9 @@ class ClientFrame(wx.Frame):
 		self.fileList = None
 		self.showList = None
 		self.folderPath = None
+		self.lastSaveFolderPath = os.getcwd()
+		self.lastOpenFolderPath = os.getcwd()
+		self.lastOpenFileFolderPath = os.getcwd()
 
 		self.addIcon()
 		self.addStatusBar()
@@ -89,8 +93,18 @@ class ClientFrame(wx.Frame):
 			self.showInfo(u'尚未指定需要处理的文件夹，无数据可供导出')
 			self.showStatus(u'导出失败')
 			return
+		
+		dlg = wx.FileDialog(
+			self, message=u"文件存为……", defaultDir=self.lastSaveFolderPath, 
+			defaultFile=u"导出文件表格.csv", wildcard=u'逗号分隔数据表(*.CSV)|*.csv|All files (*.*)|*.*', style=wx.SAVE
+			)
+		if dlg.ShowModal() == wx.ID_OK:
+			filePath = dlg.GetPath()
+		else:
+			return
+
 		try:
-			filePath = csvHandler.CSV().write(self.showList)
+			csvHandler.CSV().write(filePath, self.showList)
 		except Exception, e:
 			self.infoText.SetValue(str(e))
 			self.showStatus(u'导出失败')

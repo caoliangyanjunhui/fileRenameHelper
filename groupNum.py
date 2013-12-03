@@ -17,7 +17,7 @@ class NumPanel(wx.Panel):
 		options = [u'不需要', u'加前缀', u'加后缀']
 		self.operations = [None, 'prefix', 'postfix']
 		self.radioBox = wx.RadioBox(
-				self, -1, u"文件名", wx.DefaultPosition, wx.DefaultSize,
+				self, -1, u"编号", wx.DefaultPosition, wx.DefaultSize,
 				options, 3, wx.RA_SPECIFY_COLS
 				)
 		sizer.Add(self.radioBox, 0, wx.ALL, 1)

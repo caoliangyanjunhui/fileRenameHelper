@@ -5,11 +5,9 @@ import os
 from pathHelper import pathJoin
 
 class CSV(object):
-	def write(self, dataList):
+	def write(self, filePath, dataList, ):
 		text = self.dataListToText(dataList)
-		filePath = pathJoin(os.getcwd(), u'导出文件表格.csv')
 		saveTextFile(filePath, text)
-		return filePath
 
 	def dataListToText(self, dataList):
 		text = ''
