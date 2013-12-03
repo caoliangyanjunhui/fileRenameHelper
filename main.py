@@ -10,7 +10,7 @@ import os
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'文件重命名工具 v0.8', size=(1000,600)
+			self, None, -1, u'文件重命名工具 v0.9', size=(1000,600)
 			)
 		self.fileList = []
 		self.showList = []

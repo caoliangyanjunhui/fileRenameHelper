@@ -36,7 +36,7 @@ class FileReader(object):
 		recordList = []
 		for fileDict in fileList:
 			record = [	fileDict['fileHead'], 
-						'', 
+						fileDict['newHead'], 
 						fileDict['level2Name'],
 						fileDict['level3Name'],
 						fileDict['filePath'],
@@ -57,7 +57,7 @@ class FileReader(object):
 			head, ext = os.path.splitext(fileName)
 			fileDict['fileName'] = fileName
 			fileDict['fileHead'] = head
-			fileDict['newHead'] = ''
+			fileDict['newHead'] = head
 			fileDict['fileExt'] = ext
 			fileDict['filePath'] = filePath
 			fileDict['folderName'] = os.path.basename(folderPath)
@@ -88,7 +88,7 @@ class FileRename(object):
 	def excuteNewName(self):
 		newName = self.operations['newName']
 		if not newName: return
-		newName = localEncodeText(newName)
+		#newName = localEncodeText(newName)
 		operation = self.operations['newNameOperation']
 		if not operation: return
 		if operation == 'replace':
@@ -105,11 +105,12 @@ class FileRename(object):
 
 	def addNamePrefix(self, prefix):
 		for fileDict in self.fileList:
-			fileDict['newHead'] = prefix + fileDict['fileHead']
+			print type(prefix), type(fileDict['newHead'])
+			fileDict['newHead'] = prefix + fileDict['newHead']
 
 	def addNamePostfix(self, postfix):
 		for fileDict in self.fileList:
-			fileDict['newHead'] = fileDict['fileHead'] + postfix
+			fileDict['newHead'] = fileDict['newHead'] + postfix
 
 	def excuteAddNum(self):
 		startNum = self.operations['startNum']
