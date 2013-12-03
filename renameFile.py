@@ -49,6 +49,24 @@ class FileReader(object):
 		showList = self.listToShow(fileList)
 		return fileList, showList
 
+	def readFiles(self, files):
+		fileList = []
+		for filePath in files:
+			fileDict = {}
+			folderPath, fileName = os.path.split(filePath)
+			head, ext = os.path.splitext(fileName)
+			fileDict['fileName'] = fileName
+			fileDict['fileHead'] = head
+			fileDict['newHead'] = ''
+			fileDict['fileExt'] = ext
+			fileDict['filePath'] = filePath
+			fileDict['folderName'] = os.path.basename(folderPath)
+			fileDict['folderPath'] = os.path.dirname(filePath)
+			fileDict['level'] = 0
+			fileDict['level2Name'] = ''
+			fileDict['level3Name'] = ''
+			fileList.append(fileDict)
+		return fileList, self.listToShow(fileList)
 
 class FileRename(object):
 	def __init__(self, fileList, operations=None):
@@ -136,6 +154,8 @@ def test():
 	print showList
 	print FileRename(fileList, {'newNameOperation':'replace', 'newName':u'new', 
 		'addNumOperation':'prefix', 'startNum':'001'}).preview()
+
+	print FileReader().readFiles(['f:\\temp\\111.txt', u'f:\\temp\\中文目录\\中文文件.txt'])
 
 if __name__ == '__main__':
 	test()

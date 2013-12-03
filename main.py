@@ -10,10 +10,10 @@ import os
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'文件重命名工具 v0.7', size=(1000,600)
+			self, None, -1, u'文件重命名工具 v0.8', size=(1000,600)
 			)
-		self.fileList = None
-		self.showList = None
+		self.fileList = []
+		self.showList = []
 		self.files = []
 		self.folderPath = ''
 		self.lastOpenFolderPath = ''
@@ -71,11 +71,15 @@ class ClientFrame(wx.Frame):
 							style=wx.OPEN | wx.MULTIPLE | wx.CHANGE_DIR
 							)
 		if dlg.ShowModal() == wx.ID_OK:
-			self.files = []
 			self.files = dlg.GetPaths()
 
 		dlg.Destroy()
-		print self.files
+		if not self.files: return
+		self.fileList, self.showList = renameFile.FileReader().readFiles(self.files)
+		self.grid.setData(self.showList)
+		self.showInfo(u'打开文件:' + str(len(self.files)))
+		self.showStatus(u'打开成功')
+
 
 	def onFolderOpenButtonClick(self, evt):
 		dlg = wx.DirDialog(self, u"选择要批处理的目录", defaultPath=self.lastOpenFolderPath, 
