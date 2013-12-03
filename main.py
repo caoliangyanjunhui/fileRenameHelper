@@ -9,7 +9,7 @@ import csvHandler
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'文件重命名工具 v0.5', size=(800,600)
+			self, None, -1, u'文件重命名工具 v0.6', size=(1000,600)
 			)
 		self.fileList = None
 		self.showList = None

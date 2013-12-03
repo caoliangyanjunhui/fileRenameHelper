@@ -72,6 +72,7 @@ class FileRename(object):
 		if not newName: return
 		newName = localEncodeText(newName)
 		operation = self.operations['newNameOperation']
+		if not operation: return
 		if operation == 'replace':
 			self.setNewName( newName )
 		elif operation == 'prefix':
