@@ -10,7 +10,7 @@ import os
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'文件重命名工具 v0.10', size=(1000,600)
+			self, None, -1, u'文件重命名工具 v0.11', size=(1000,600)
 			)
 		self.fileList = []
 		self.showList = []
@@ -67,6 +67,7 @@ class ClientFrame(wx.Frame):
 		self.buttonBox.buttonUndoPreview.Bind(wx.EVT_BUTTON, self.onUndoPreviewButtonClick)
 		self.buttonBox.buttonResetPreview.Bind(wx.EVT_BUTTON, self.onResetPreviewButtonClick)
 		self.buttonBox.buttonRename.Bind(wx.EVT_BUTTON, self.onRenameButtonClick)
+		self.buttonBox.buttonUndoRename.Bind(wx.EVT_BUTTON, self.onUndoRenameButtonClick)
 
 	def onFileOpenButtonClick(self, evt):
 		dlg = wx.FileDialog(self, u'选择要批处理的文件',
@@ -74,12 +75,14 @@ class ClientFrame(wx.Frame):
 							)
 		if dlg.ShowModal() == wx.ID_OK:
 			self.files = dlg.GetPaths()
-
+			self.openFiles(self.files)
 		dlg.Destroy()
-		if not self.files: return
-		self.fileList, self.showList = renameFile.FileReader().readFiles(self.files)
+
+	def openFiles(self, files):
+		if not files: return
+		self.fileList, self.showList = renameFile.FileReader().readFiles(files)
 		self.grid.setData(self.showList)
-		self.showInfo(u'打开文件:' + str(len(self.files)))
+		self.showInfo(u'打开文件:' + str(len(files)))
 		self.showStatus(u'打开成功')
 
 
@@ -131,15 +134,11 @@ class ClientFrame(wx.Frame):
 		self.showInfo(u'预览')
 
 	def onUndoPreviewButtonClick(self, evt):
-		self.fileList, self.showList = renameFile.FileRename(self.fileList).undoPreview()
-		self.grid.setData(self.showList)
-		self.buttonBox.reset
+		self.undoPreview()
 		self.showInfo(u'撤销预览')
 
 	def onResetPreviewButtonClick(self, evt):
-		self.fileList, self.showList = renameFile.FileRename(self.fileList).resetPreview()
-		self.grid.setData(self.showList)
-		self.buttonBox.reset
+		self.resetPreview()
 		self.showInfo(u'清空预览')
 
 
@@ -149,14 +148,33 @@ class ClientFrame(wx.Frame):
 		self.showInfo(u'重命名文件数量:' + str(len(self.fileList)))
 		self.showStatus(u'重命名执行完成')
 
+	def onUndoRenameButtonClick(self, evt):
+		self.undoRename()
+		self.resetPreview()
+		self.showInfo(u'撤销重命名文件数量:' + str(len(self.fileList)))
+		self.showStatus(u'重命名撤销完成')
+
 	def preview(self):
 		operations = self.getOperations()
 		self.fileList, self.showList = renameFile.FileRename(self.fileList, operations).preview()
 		self.grid.setData(self.showList)
 		self.buttonBox.reset()
 
+	def undoPreview(self):
+		self.fileList, self.showList = renameFile.FileRename(self.fileList).undoPreview()
+		self.grid.setData(self.showList)
+		self.buttonBox.reset
+
+	def resetPreview(self):
+		self.fileList, self.showList = renameFile.FileRename(self.fileList).resetPreview()
+		self.grid.setData(self.showList)
+		self.buttonBox.reset
+
 	def rename(self):
 		renameFile.FileRename(self.fileList).excute()
+
+	def undoRename(self):
+		renameFile.FileRename(self.fileList).undoExcute()
 
 	def showInfo(self, text):
 		if not text: return

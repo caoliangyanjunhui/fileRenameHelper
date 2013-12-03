@@ -9,7 +9,6 @@ def pathJoin(parentPath, childNmae):
 	return os.path.abspath(os.path.join( localEncodeText(parentPath), localEncodeText(childNmae) ))
 
 def rename(sourcePath, destinationPath):
-	print sourcePath, destinationPath
 	try:
 		if os.path.isdir(sourcePath): return
 		os.rename( localEncodeText(sourcePath), localEncodeText(destinationPath))

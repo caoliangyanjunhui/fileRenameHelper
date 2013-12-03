@@ -28,6 +28,7 @@ class FileReader(object):
 				if level == 3: 
 					fileDict['level2Name'] = os.path.split( os.path.dirname( folderPath ) )[1] 
 					fileDict['level3Name'] = folderName
+				fileDict['newFilePath'] = ''
 				fileList.append(fileDict)
 			elif os.path.isdir(childPath):
 				fileList = self.fileUnderPath(childPath, child, level+1, fileList)
@@ -67,6 +68,7 @@ class FileReader(object):
 			fileDict['level'] = 0
 			fileDict['level2Name'] = ''
 			fileDict['level3Name'] = ''
+			fileDict['newFilePath'] = ''
 			fileList.append(fileDict)
 		return fileList, self.listToShow(fileList)
 
@@ -79,7 +81,14 @@ class FileRename(object):
 		for fileDict in self.fileList:
 			newFileName = fileDict['newHead'] + fileDict['fileExt']
 			newFilePath = pathJoin(fileDict['folderPath'], newFileName)
+			fileDict['newFilePath'] = newFilePath
 			rename(fileDict['filePath'], newFilePath)
+
+	def undoExcute(self):
+		for fileDict in self.fileList:
+			if fileDict['newFilePath']:
+				rename(fileDict['newFilePath'], fileDict['filePath'])
+				fileDict['newFilePath'] = ''
 
 	def preview(self):
 		if not self.operations: 
