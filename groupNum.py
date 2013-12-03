@@ -31,7 +31,7 @@ class NumPanel(wx.Panel):
 	def onStartNumChar(self, evt):
 		inputChar = evt.GetKeyCode()
 		print inputChar
-		if inputChar >= 48 and inputChar <= 57:	
+		if (inputChar >= 48 and inputChar <= 57) or (inputChar == 8) :	
 			evt.Skip(True)
 			return
 		

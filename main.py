@@ -60,6 +60,7 @@ class ClientFrame(wx.Frame):
 		self.buttonBox.buttonOpen.Bind(wx.EVT_BUTTON, self.onOpenButtonClick)
 		self.buttonBox.buttonExport.Bind(wx.EVT_BUTTON, self.onExportButtonClick)
 		self.buttonBox.buttonPreview.Bind(wx.EVT_BUTTON, self.onPreviewButtonClick)
+		self.buttonBox.buttonRename.Bind(wx.EVT_BUTTON, self.onRenameButtonClick)
 
 	def onOpenButtonClick(self, evt):
 		self.folderPath = None
@@ -98,11 +99,22 @@ class ClientFrame(wx.Frame):
 		self.showStatus(u'导出完成')
 
 	def onPreviewButtonClick(self, evt):
+		self.preview()
+		self.showInfo(u'预览')
+
+	def onRenameButtonClick(self, evt):
+		self.preview()
+		self.rename()
+		self.showInfo(u'重命名文件数量:' + str(len(self.fileList)))
+		self.showStatus(u'重命名执行完成')
+
+	def preview(self):
 		operations = self.getOperations()
 		self.fileList, self.showList = renameFile.FileRename(self.fileList, operations).preview()
 		self.grid.setData(self.showList)
-		self.showInfo(u'预览')
 
+	def rename(self):
+		renameFile.FileRename(self.fileList).excute()
 
 	def showInfo(self, text):
 		if not text: return

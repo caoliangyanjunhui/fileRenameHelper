@@ -2,7 +2,7 @@
 
 import os
 from localEncode import localEncodeText, unicodeFromLocalEncode
-from pathHelper import pathJoin, parentPath
+from pathHelper import pathJoin, parentPath, rename
 
 class FileReader(object):
 	def fileUnderPath(self, folderPath, folderName='', level=1, fileList=[]):
@@ -19,6 +19,7 @@ class FileReader(object):
 				fileDict['fileExt'] = ext
 				fileDict['filePath'] = childPath
 				fileDict['folderName'] = folderName
+				fileDict['folderPath'] = folderPath
 				fileDict['level'] = level
 				fileDict['level2Name'] = ''
 				fileDict['level3Name'] = ''
@@ -50,9 +51,15 @@ class FileReader(object):
 
 
 class FileRename(object):
-	def __init__(self, fileList, operations):
+	def __init__(self, fileList, operations=None):
 		self.fileList = fileList
 		self.operations = operations
+
+	def excute(self):
+		for fileDict in self.fileList:
+			newFileName = fileDict['newHead'] + fileDict['fileExt']
+			newFilePath = pathJoin(fileDict['folderPath'], newFileName)
+			rename(fileDict['filePath'], newFilePath)
 
 	def preview(self):
 		if not self.operations: return

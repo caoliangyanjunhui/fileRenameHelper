@@ -1,12 +1,20 @@
 # -*- coding: UTF-8 -*-
 import os
 import shutil
-import localEncode
+from localEncode import localEncodeText, unicodeFromLocalEncode
 
 
 
 def pathJoin(parentPath, childNmae):
-	return os.path.abspath(os.path.join( localEncode.localEncodeText(parentPath), localEncode.localEncodeText(childNmae) ))
+	return os.path.abspath(os.path.join( localEncodeText(parentPath), localEncodeText(childNmae) ))
+
+def rename(sourcePath, destinationPath):
+	print sourcePath, destinationPath
+	try:
+		if os.path.isdir(sourcePath): return
+		os.rename( localEncodeText(sourcePath), localEncodeText(destinationPath))
+	except Exception, e:
+		print e
 
 def copyToPath(sourcePath, destinationPath):
 	try:
@@ -64,11 +72,11 @@ def createFolder(path):
 		return False
 
 def exists(path):
-	return os.path.exists( localEncode.localEncodeText(path) )
+	return os.path.exists( localEncodeText(path) )
 
 def childFolderList(folderPath):
 	folderPathDict = {}
-	folderPath = localEncode.localEncodeText(folderPath)
+	folderPath = localEncodeText(folderPath)
 	if not exists(folderPath): return folderPathDict
 	dirList = os.listdir(folderPath)
 	for item in dirList:
@@ -79,7 +87,7 @@ def childFolderList(folderPath):
 
 def readText(filePath):
 	text = ''
-	filePath = localEncode.localEncodeText(filePath)
+	filePath = localEncodeText(filePath)
 	if not exists(filePath): return text
 	f = open(filePath, 'r')
 	try:
@@ -88,7 +96,7 @@ def readText(filePath):
 		print e
 	finally:
 		f.close()
-	return localEncode.unicodeFromLocalEncode(text)
+	return unicodeFromLocalEncode(text)
 
 def fileNameWithoutExtention(fileName):
 	name, ext = os.path.splitext(fileName)
