@@ -25,18 +25,18 @@ class ButtonBox(wx.Panel):
 		sizer.Add(box,  0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
 
 	def addOpenFileButton(self, sizer):
-		self.buttonOpenFile = wx.Button(self, -1, u"打开文件")
+		self.buttonOpenFile = wx.Button(self, -1, u"打开文件", size=(-1, 37))
 		sizer.Add(self.buttonOpenFile, 0, flag=wx.TOP, border=0)
 
 
 	def addOpenFolderButton(self, sizer):
-		self.buttonOpenFolder = wx.Button(self, -1, u"打开目录")
-		sizer.Add(self.buttonOpenFolder, 0, flag=wx.TOP, border=15)
+		self.buttonOpenFolder = wx.Button(self, -1, u"打开目录", size=(-1, 37))
+		sizer.Add(self.buttonOpenFolder, 0, flag=wx.TOP, border=5)
 
 
 	def addRenameGroup(self, sizer):
 		self.renameGroup = groupRename.RenamePanel(self)
-		sizer.Add(self.renameGroup, flag=wx.LEFT, border=10)
+		sizer.Add(self.renameGroup, flag=wx.LEFT, border=30)
 
 	def addNumGroup(self, sizer):
 		self.numGroup = groupNum.NumPanel(self)
@@ -54,30 +54,30 @@ class ButtonBox(wx.Panel):
 		sizer.Add(self.buttonPreview, 0, flag=wx.TOP, border=0) 
 
 	def addUndoPreviewButton(self, sizer):
-		self.buttonUndoPreview = wx.Button(self, -1, u"撤销预览")
+		self.buttonUndoPreview = wx.Button(self, -1, u"撤销")
 		sizer.Add(self.buttonUndoPreview, 0, flag=wx.TOP, border=3) 
 
 	def addResetPreviewButton(self, sizer):
-		self.buttonResetPreview = wx.Button(self, -1, u"清空预览")
+		self.buttonResetPreview = wx.Button(self, -1, u"清空")
 		sizer.Add(self.buttonResetPreview, 0, flag=wx.TOP, border=3) 
 
 	def addRenameBox(self, sizer):
 		box = wx.BoxSizer(wx.VERTICAL)
 		self.addRenameButton(box)
 		self.addUndoRenameButton(box)
-		sizer.Add(box,  0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
+		sizer.Add(box,  0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=30)
 
 	def addRenameButton(self, sizer):
-		self.buttonRename = wx.Button(self, -1, u"执行重命名")
+		self.buttonRename = wx.Button(self, -1, u"执行重命名", size=(-1, 37))
 		sizer.Add(self.buttonRename, 0, flag=wx.TOP, border=0)
 
 	def addUndoRenameButton(self, sizer):
-		self.buttonUndoRename = wx.Button(self, -1, u"撤销重命名")
-		sizer.Add(self.buttonUndoRename, 0, flag=wx.TOP, border=10)
+		self.buttonUndoRename = wx.Button(self, -1, u"撤销重命名", size=(-1, 37))
+		sizer.Add(self.buttonUndoRename, 0, flag=wx.TOP, border=5)
 
 	def addExportButton(self, sizer):
-		self.buttonExport = wx.Button(self, -1, u"导出Excel")
-		sizer.Add(self.buttonExport, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
+		self.buttonExport = wx.Button(self, -1, u"导出Excel", size=(-1, 78))
+		sizer.Add(self.buttonExport, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=30)
 
 	def reset(self):
 		self.renameGroup.reset()
