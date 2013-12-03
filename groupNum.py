@@ -23,7 +23,7 @@ class NumPanel(wx.Panel):
 		sizer.Add(self.radioBox, 0, wx.ALL, 1)
 
 	def addTextStartNum(self, sizer):
-		self.startNum = wx.TextCtrl(self, -1, "001", size=(126, -1))
+		self.startNum = wx.TextCtrl(self, -1, "001", size=(186, -1))
 		sizer.Add(self.startNum, flag=wx.LEFT | wx.TOP, border=1)
 		self.startNum.Bind(wx.EVT_CHAR, self.onStartNumChar)
 		self.startNum.Bind(wx.EVT_TEXT, self.onStartNumText)

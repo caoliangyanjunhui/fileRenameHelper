@@ -9,7 +9,8 @@ class ButtonBox(wx.Panel):
 	def __init__(self, parent):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
-		self.addOpenButton(sizer)
+		self.addOpenFileButton(sizer)
+		self.addOpenFolderButton(sizer)
 		self.addRenameGroup(sizer)
 		self.addNumGroup(sizer)
 		self.addPreviewButton(sizer)
@@ -17,9 +18,15 @@ class ButtonBox(wx.Panel):
 		self.addExportButton(sizer)
 		self.SetSizer(sizer)
 
-	def addOpenButton(self, sizer):
-		self.buttonOpen = wx.Button(self, -1, u"选择文件夹")
-		sizer.Add(self.buttonOpen, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
+
+	def addOpenFileButton(self, sizer):
+		self.buttonOpenFile = wx.Button(self, -1, u"打开文件")
+		sizer.Add(self.buttonOpenFile, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
+
+
+	def addOpenFolderButton(self, sizer):
+		self.buttonOpenFolder = wx.Button(self, -1, u"打开目录")
+		sizer.Add(self.buttonOpenFolder, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10)
 
 
 	def addRenameGroup(self, sizer):

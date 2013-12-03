@@ -10,15 +10,14 @@ import os
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'文件重命名工具 v0.6', size=(1000,600)
+			self, None, -1, u'文件重命名工具 v0.7', size=(1000,600)
 			)
 		self.fileList = None
 		self.showList = None
-		self.folderPath = None
-		self.lastSaveFolderPath = os.getcwd()
-		self.lastOpenFolderPath = os.getcwd()
-		self.lastOpenFileFolderPath = os.getcwd()
-
+		self.files = []
+		self.folderPath = ''
+		self.lastOpenFolderPath = ''
+		self.lastSaveFolderPath = ''
 		self.addIcon()
 		self.addStatusBar()
 		self.splitWindow = wx.SplitterWindow(self)
@@ -61,21 +60,30 @@ class ClientFrame(wx.Frame):
 		self.SetIcon(icon)
 
 	def bindEvents(self):
-		self.buttonBox.buttonOpen.Bind(wx.EVT_BUTTON, self.onOpenButtonClick)
+		self.buttonBox.buttonOpenFile.Bind(wx.EVT_BUTTON, self.onFileOpenButtonClick)
+		self.buttonBox.buttonOpenFolder.Bind(wx.EVT_BUTTON, self.onFolderOpenButtonClick)
 		self.buttonBox.buttonExport.Bind(wx.EVT_BUTTON, self.onExportButtonClick)
 		self.buttonBox.buttonPreview.Bind(wx.EVT_BUTTON, self.onPreviewButtonClick)
 		self.buttonBox.buttonRename.Bind(wx.EVT_BUTTON, self.onRenameButtonClick)
 
-	def onOpenButtonClick(self, evt):
-		self.folderPath = None
-		dlg = wx.DirDialog(self, u"选择要批处理的文件夹",
-						  style=wx.DD_DEFAULT_STYLE
-						   | wx.DD_DIR_MUST_EXIST
-						   #| wx.DD_CHANGE_DIR
-						   )
+	def onFileOpenButtonClick(self, evt):
+		dlg = wx.FileDialog(self, u'选择要批处理的文件',
+							style=wx.OPEN | wx.MULTIPLE | wx.CHANGE_DIR
+							)
 		if dlg.ShowModal() == wx.ID_OK:
-			self.folderPath = dlg.GetPath()
+			self.files = []
+			self.files = dlg.GetPaths()
 
+		dlg.Destroy()
+		print self.files
+
+	def onFolderOpenButtonClick(self, evt):
+		dlg = wx.DirDialog(self, u"选择要批处理的目录", defaultPath=self.lastOpenFolderPath, 
+						  style=wx.DD_DIR_MUST_EXIST | wx.DD_CHANGE_DIR)
+		if dlg.ShowModal() == wx.ID_OK:
+			self.files = []
+			self.folderPath = dlg.GetPath()
+			self.lastOpenFolderPath = self.folderPath
 		dlg.Destroy()
 
 		if self.folderPath:
