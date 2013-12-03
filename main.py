@@ -99,7 +99,10 @@ class ClientFrame(wx.Frame):
 
 	def onPreviewButtonClick(self, evt):
 		operations = self.getOperations()
-		self.showInfo(u'预览' + str(operations))
+		self.fileList, self.showList = renameFile.FileRename(self.fileList, operations).preview()
+		self.grid.setData(self.showList)
+		self.showInfo(u'预览')
+
 
 	def showInfo(self, text):
 		if not text: return
@@ -116,7 +119,7 @@ class ClientFrame(wx.Frame):
 		operations = {}
 		operations['newNameOperation'] = self.buttonBox.renameGroup.getSelection()
 		operations['newName'] = self.buttonBox.renameGroup.getNewName()
-		operations['startNumOperation'] = self.buttonBox.numGroup.getSelection()
+		operations['addNumOperation'] = self.buttonBox.numGroup.getSelection()
 		operations['startNum'] = self.buttonBox.numGroup.getStartNum()
 		return operations
 		

@@ -48,7 +48,7 @@ class NumPanel(wx.Panel):
 		return self.operations[index]
 
 	def getStartNum(self):
-		return toInt(self.startNum.GetValue())
+		return self.startNum.GetValue()
 #---------------------------------------------------------------------------
 class TestFrame(wx.Frame):
 	def __init__(self):
