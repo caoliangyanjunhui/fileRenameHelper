@@ -64,6 +64,7 @@ class ClientFrame(wx.Frame):
 		self.buttonBox.buttonOpenFolder.Bind(wx.EVT_BUTTON, self.onFolderOpenButtonClick)
 		self.buttonBox.buttonExport.Bind(wx.EVT_BUTTON, self.onExportButtonClick)
 		self.buttonBox.buttonPreview.Bind(wx.EVT_BUTTON, self.onPreviewButtonClick)
+		self.buttonBox.buttonUndoPreview.Bind(wx.EVT_BUTTON, self.onUndoPreviewButtonClick)
 		self.buttonBox.buttonRename.Bind(wx.EVT_BUTTON, self.onRenameButtonClick)
 
 	def onFileOpenButtonClick(self, evt):
@@ -127,6 +128,12 @@ class ClientFrame(wx.Frame):
 	def onPreviewButtonClick(self, evt):
 		self.preview()
 		self.showInfo(u'预览')
+
+	def onUndoPreviewButtonClick(self, evt):
+		self.fileList, self.showList = renameFile.FileRename(self.fileList).undoPreview()
+		self.grid.setData(self.showList)
+		self.buttonBox.reset
+		self.showInfo(u'撤销预览')
 
 	def onRenameButtonClick(self, evt):
 		self.preview()

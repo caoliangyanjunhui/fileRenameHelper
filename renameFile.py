@@ -16,6 +16,7 @@ class FileReader(object):
 				fileDict['fileName'] = child
 				fileDict['fileHead'] = head
 				fileDict['newHead'] = head
+				fileDict['lastNewHead'] = head
 				fileDict['fileExt'] = ext
 				fileDict['filePath'] = childPath
 				fileDict['folderName'] = folderName
@@ -58,6 +59,7 @@ class FileReader(object):
 			fileDict['fileName'] = fileName
 			fileDict['fileHead'] = head
 			fileDict['newHead'] = head
+			fileDict['lastNewHead'] = head
 			fileDict['fileExt'] = ext
 			fileDict['filePath'] = filePath
 			fileDict['folderName'] = os.path.basename(folderPath)
@@ -81,8 +83,18 @@ class FileRename(object):
 
 	def preview(self):
 		if not self.operations: return
+		self.keepLastPreviewHistory()
 		self.excuteNewName()
 		self.excuteAddNum()
+		return self.fileList, self.listToShow(self.fileList)
+
+	def keepLastPreviewHistory(self):
+		for fileDict in self.fileList:
+			fileDict['lastNewHead'] = fileDict['newHead']
+
+	def undoPreview(self):
+		for fileDict in self.fileList:
+			fileDict['newHead'] = fileDict['lastNewHead']
 		return self.fileList, self.listToShow(self.fileList)
 
 	def excuteNewName(self):
