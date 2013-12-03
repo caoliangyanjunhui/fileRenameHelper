@@ -82,7 +82,10 @@ class FileRename(object):
 			rename(fileDict['filePath'], newFilePath)
 
 	def preview(self):
-		if not self.operations: return
+		if not self.operations: 
+			return self.fileList, self.listToShow(self.fileList)
+		if (not self.operations['newNameOperation']) and (not self.operations['addNumOperation']):
+			return self.fileList, self.listToShow(self.fileList)
 		self.keepLastPreviewHistory()
 		self.excuteNewName()
 		self.excuteAddNum()
@@ -95,6 +98,11 @@ class FileRename(object):
 	def undoPreview(self):
 		for fileDict in self.fileList:
 			fileDict['newHead'] = fileDict['lastNewHead']
+		return self.fileList, self.listToShow(self.fileList)
+
+	def resetPreview(self):
+		for fileDict in self.fileList:
+			fileDict['newHead'] = fileDict['fileHead']
 		return self.fileList, self.listToShow(self.fileList)
 
 	def excuteNewName(self):
