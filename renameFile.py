@@ -2,7 +2,7 @@
 
 import os
 from localEncode import localEncodeText, unicodeFromLocalEncode
-from pathHelper import pathJoin, parentPath, fileNameWithoutExtention
+from pathHelper import pathJoin, parentPath
 
 class FileReader(object):
 	def fileUnderPath(self, folderPath, folderName='', level=1, fileList=[]):
@@ -11,9 +11,12 @@ class FileReader(object):
 		for child in children:
 			childPath = pathJoin(folderPath, child)
 			if os.path.isfile(childPath):
+				head, ext = os.path.splitext(child)
 				fileDict = {}
 				fileDict['fileName'] = child
-				fileDict['fileHead'] = fileNameWithoutExtention(child)
+				fileDict['fileHead'] = head
+				fileDict['newHead'] = head
+				fileDict['fileExt'] = ext
 				fileDict['filePath'] = childPath
 				fileDict['folderName'] = folderName
 				fileDict['level'] = level
@@ -44,6 +47,26 @@ class FileReader(object):
 		fileList = self.fileUnderPath(folderPath, fileList=[])
 		showList = self.listToShow(fileList)
 		return fileList, showList
+
+
+class FileRename(object):
+	def __init__(self, fileList, operations):
+		self.fileList = fileList
+		self.operations = operations
+
+	def preview(self):
+		newName = operations['newName']
+		if newName:
+			newNameOperation = operations['newNameOperation']
+			if newNameOperation == 'replace':
+				self.setNewName( newName )
+
+	def setNewName(self, newHead):
+		if not newName: return
+		for fileDict in fileList:
+			fileDict['newHead'] = newHead
+
+
 
 def test():
 	folderPath = u'f:\\temp\\中文目录'

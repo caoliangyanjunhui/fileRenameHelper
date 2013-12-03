@@ -9,7 +9,7 @@ import csvHandler
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'文件重命名工具 v0.4', size=(800,600)
+			self, None, -1, u'文件重命名工具 v0.5', size=(800,600)
 			)
 		self.fileList = None
 		self.showList = None
@@ -59,6 +59,7 @@ class ClientFrame(wx.Frame):
 	def bindEvents(self):
 		self.buttonBox.buttonOpen.Bind(wx.EVT_BUTTON, self.onOpenButtonClick)
 		self.buttonBox.buttonExport.Bind(wx.EVT_BUTTON, self.onExportButtonClick)
+		self.buttonBox.buttonPreview.Bind(wx.EVT_BUTTON, self.onPreviewButtonClick)
 
 	def onOpenButtonClick(self, evt):
 		self.folderPath = None
@@ -96,6 +97,10 @@ class ClientFrame(wx.Frame):
 		self.showInfo(filePath)
 		self.showStatus(u'导出完成')
 
+	def onPreviewButtonClick(self, evt):
+		operations = self.getOperations()
+		self.showInfo(u'预览' + str(operations))
+
 	def showInfo(self, text):
 		if not text: return
 		try:
@@ -106,6 +111,15 @@ class ClientFrame(wx.Frame):
 	def showStatus(self, text):
 		self.statusBar.SetStatusText(text, 0)
 
+
+	def getOperations(self):
+		operations = {}
+		operations['newNameOperation'] = self.buttonBox.renameGroup.getSelection()
+		operations['newName'] = self.buttonBox.renameGroup.getNewName()
+		operations['startNumOperation'] = self.buttonBox.numGroup.getSelection()
+		operations['startNum'] = self.buttonBox.numGroup.getStartNum()
+		return operations
+		
 
 def main():
 	app = wx.PySimpleApp()

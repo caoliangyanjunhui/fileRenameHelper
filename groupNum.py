@@ -1,6 +1,8 @@
 # -*- coding:UTF-8 -*-
 import wx
 
+from stringHelper import isIntStr, toInt
+
 class NumPanel(wx.Panel):
 	def __init__(self, parent):
 		wx.Panel.__init__(self, parent, -1)
@@ -12,17 +14,41 @@ class NumPanel(wx.Panel):
 		self.SetSizer(sizer)
 
 	def addRadioBox(self, sizer):
-		options = [u'加前缀', u'加后缀']
-		self.rb = wx.RadioBox(
+		options = [u'不需要', u'加前缀', u'加后缀']
+		self.operations = [None, 'prefix', 'postfix']
+		self.radioBox = wx.RadioBox(
 				self, -1, u"文件名", wx.DefaultPosition, wx.DefaultSize,
-				options, 2, wx.RA_SPECIFY_COLS
+				options, 3, wx.RA_SPECIFY_COLS
 				)
-		sizer.Add(self.rb, 0, wx.ALL, 1)
+		sizer.Add(self.radioBox, 0, wx.ALL, 1)
 
 	def addTextStartNum(self, sizer):
-		self.newName = wx.TextCtrl(self, -1, "001", size=(126, -1))
-		sizer.Add(self.newName, flag=wx.LEFT | wx.TOP, border=1)
+		self.startNum = wx.TextCtrl(self, -1, "001", size=(126, -1))
+		sizer.Add(self.startNum, flag=wx.LEFT | wx.TOP, border=1)
+		self.startNum.Bind(wx.EVT_CHAR, self.onStartNumChar)
+		self.startNum.Bind(wx.EVT_TEXT, self.onStartNumText)
 
+	def onStartNumChar(self, evt):
+		inputChar = evt.GetKeyCode()
+		print inputChar
+		if inputChar >= 48 and inputChar <= 57:	
+			evt.Skip(True)
+			return
+		
+		evt.Skip(False)
+
+	def onStartNumText(self, evt):
+		text = evt.GetString()
+		if not isIntStr(text):
+			self.startNum.SetValue('001')
+
+
+	def getSelection(self):
+		index = self.radioBox.GetSelection() 
+		return self.operations[index]
+
+	def getStartNum(self):
+		return toInt(self.startNum.GetValue())
 #---------------------------------------------------------------------------
 class TestFrame(wx.Frame):
 	def __init__(self):

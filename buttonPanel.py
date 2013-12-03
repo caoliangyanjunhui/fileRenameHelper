@@ -10,9 +10,10 @@ class ButtonBox(wx.Panel):
 		wx.Panel.__init__(self, parent)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
 		self.addOpenButton(sizer)
-		#self.addRenameGroup(sizer)
-		#self.addNumGroup(sizer)
-		#self.addRenameButton(sizer)
+		self.addRenameGroup(sizer)
+		self.addNumGroup(sizer)
+		self.addPreviewButton(sizer)
+		self.addRenameButton(sizer)
 		self.addExportButton(sizer)
 		self.SetSizer(sizer)
 
@@ -28,6 +29,10 @@ class ButtonBox(wx.Panel):
 	def addNumGroup(self, sizer):
 		self.numGroup = groupNum.NumPanel(self)
 		sizer.Add(self.numGroup, flag=wx.LEFT, border=1)
+
+	def addPreviewButton(self, sizer):
+		self.buttonPreview = wx.Button(self, -1, u"预览")
+		sizer.Add(self.buttonPreview, 0, flag=wx.LEFT | wx.ALIGN_CENTER_VERTICAL, border=10) 
 
 	def addRenameButton(self, sizer):
 		self.buttonRename = wx.Button(self, -1, u"执行重命名")
