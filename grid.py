@@ -99,7 +99,7 @@ class FileTableGrid(gridlib.Grid):
 			self.SetColAttr(column, attr)
 
 	def getDefaultData(self):
-		return []
+		return [[],]
 
 	def setData(self, dataList):
 		if not dataList: return

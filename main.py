@@ -89,7 +89,7 @@ class ClientFrame(wx.Frame):
 
 	def onFolderOpenButtonClick(self, evt):
 		dlg = wx.DirDialog(self, u"选择要批处理的目录", defaultPath=self.lastOpenFolderPath, 
-						  style=wx.DD_DIR_MUST_EXIST | wx.DD_CHANGE_DIR)
+						  style=wx.DD_DIR_MUST_EXIST | wx.DD_CHANGE_DIR | wx.DD_DEFAULT_STYLE)
 		if dlg.ShowModal() == wx.ID_OK:
 			self.files = []
 			self.folderPath = dlg.GetPath()
