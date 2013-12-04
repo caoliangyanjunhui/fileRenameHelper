@@ -102,6 +102,7 @@ class FileTableGrid(gridlib.Grid):
 		return []
 
 	def setData(self, dataList):
+		if not dataList: return
 		table = self.GetTable()
 		table.data = None
 		table.data = dataList

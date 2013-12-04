@@ -1,13 +1,12 @@
 #-*- coding:UTF-8 -*-
 
 import os
-from localEncode import localEncodeText, unicodeFromLocalEncode
+from localEncode import localEncodeText, unicodeFromLocalEncode, dictToUnicode
 from pathHelper import pathJoin, parentPath, rename
 
 class FileReader(object):
 	def fileUnderPath(self, folderPath, folderName='', level=1, fileList=[]):
-		folderPath = localEncodeText(folderPath)
-		children = os.listdir(folderPath)
+		children = os.listdir(localEncodeText(folderPath))
 		for child in children:
 			childPath = pathJoin(folderPath, child)
 			if os.path.isfile(childPath):
@@ -29,6 +28,7 @@ class FileReader(object):
 					fileDict['level2Name'] = os.path.split( os.path.dirname( folderPath ) )[1] 
 					fileDict['level3Name'] = folderName
 				fileDict['newFilePath'] = ''
+				fileDict = dictToUnicode(fileDict)
 				fileList.append(fileDict)
 			elif os.path.isdir(childPath):
 				fileList = self.fileUnderPath(childPath, child, level+1, fileList)
@@ -69,6 +69,7 @@ class FileReader(object):
 			fileDict['level2Name'] = ''
 			fileDict['level3Name'] = ''
 			fileDict['newFilePath'] = ''
+			fileDict = dictToUnicode(fileDict)
 			fileList.append(fileDict)
 		return fileList, self.listToShow(fileList)
 
@@ -128,7 +129,6 @@ class FileRename(object):
 			self.addNamePostfix( newName ) 
 
 	def setNewName(self, newHead):
-		print 'setNewName', newHead
 		for fileDict in self.fileList:
 			fileDict['newHead'] = newHead
 

@@ -10,7 +10,7 @@ import os
 class ClientFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(
-			self, None, -1, u'文件重命名工具 v0.11', size=(1000,600)
+			self, None, -1, u'文件重命名工具 v0.12', size=(1000,600)
 			)
 		self.fileList = []
 		self.showList = []
@@ -74,6 +74,7 @@ class ClientFrame(wx.Frame):
 							style=wx.OPEN | wx.MULTIPLE | wx.CHANGE_DIR
 							)
 		if dlg.ShowModal() == wx.ID_OK:
+			self.folderPath = None
 			self.files = dlg.GetPaths()
 			self.openFiles(self.files)
 		dlg.Destroy()
@@ -93,23 +94,19 @@ class ClientFrame(wx.Frame):
 			self.files = []
 			self.folderPath = dlg.GetPath()
 			self.lastOpenFolderPath = self.folderPath
+			self.openFolder(self.folderPath)
 		dlg.Destroy()
 
-		if self.folderPath:
-			self.showStatus(u'正在扫描文件……')
-			self.fileList, self.showList = renameFile.FileReader().readAllFrom(self.folderPath)
-			self.grid.setData(self.showList)
-			self.showInfo(self.folderPath)
-			self.showStatus(u'打开成功')
-		else:
-			self.showInfo(u'未打开有效文件夹')
-			self.showStatus(u'取消')
+
+	def openFolder(self, folderPath):
+		self.showStatus(u'正在扫描文件……')
+		self.fileList, self.showList = renameFile.FileReader().readAllFrom(folderPath)
+		self.grid.setData(self.showList)
+		self.showInfo(folderPath)
+		self.showStatus(u'打开成功')
 
 	def onExportButtonClick(self, evt):
-		if not self.showList:
-			self.showInfo(u'尚未指定需要处理的文件夹，无数据可供导出')
-			self.showStatus(u'导出失败')
-			return
+		if self.noShowList(): return
 		
 		dlg = wx.FileDialog(
 			self, message=u"文件存为……", defaultDir=self.lastSaveFolderPath, 
@@ -143,16 +140,26 @@ class ClientFrame(wx.Frame):
 
 
 	def onRenameButtonClick(self, evt):
+		if self.noShowList(): return
 		self.preview()
 		self.rename()
 		self.showInfo(u'重命名文件数量:' + str(len(self.fileList)))
 		self.showStatus(u'重命名执行完成')
 
 	def onUndoRenameButtonClick(self, evt):
+		if self.noShowList(): return
 		self.undoRename()
 		self.resetPreview()
 		self.showInfo(u'撤销重命名文件数量:' + str(len(self.fileList)))
 		self.showStatus(u'重命名撤销完成')
+
+	def noShowList(self):
+		if not self.showList:
+			self.showInfo(u'尚未打开文件或目录')
+			self.showStatus(u'操作无效')
+			return True
+		return False
+
 
 	def preview(self):
 		operations = self.getOperations()

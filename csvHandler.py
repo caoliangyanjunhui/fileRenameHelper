@@ -3,9 +3,10 @@
 from fileHelper import saveTextFile
 import os
 from pathHelper import pathJoin
+from localEncode import localEncodeText, unicodeFromLocalEncode
 
 class CSV(object):
-	def write(self, filePath, dataList, ):
+	def write(self, filePath, dataList ):
 		text = self.dataListToText(dataList)
 		saveTextFile(filePath, text)
 
