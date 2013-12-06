@@ -8,7 +8,16 @@ class FileDataTable(gridlib.PyGridTableBase):
 	def __init__(self, data=[]):
 		gridlib.PyGridTableBase.__init__(self)
 		self.memoryOnlyList = [0,]
-		self.colLabels = [u'文件名', u'预览文件名', u'二级文件夹', u'三级文件夹', u'文件路径']
+		self.colLabels = [	u'文件名', 
+							u'预览文件名',
+							u'一级文件夹', 
+							u'二级文件夹', 
+							u'三级文件夹',
+							u'四级文件夹', 
+							u'五级文件夹', 
+							u'六级文件夹', 
+							u'七级文件夹',  
+							u'文件路径']
 		self.initDataTypes()
 		self.data = data
 
@@ -16,8 +25,13 @@ class FileDataTable(gridlib.PyGridTableBase):
 		self.dataTypes = [
 			gridlib.GRID_VALUE_STRING, #文件名
 			gridlib.GRID_VALUE_STRING, #预览文件名
-			gridlib.GRID_VALUE_STRING, #二级文件夹
-			gridlib.GRID_VALUE_STRING, #三级文件夹
+			gridlib.GRID_VALUE_STRING, #1级文件夹
+			gridlib.GRID_VALUE_STRING, #2级文件夹
+			gridlib.GRID_VALUE_STRING, #3级文件夹
+			gridlib.GRID_VALUE_STRING, #4级文件夹
+			gridlib.GRID_VALUE_STRING, #5级文件夹
+			gridlib.GRID_VALUE_STRING, #6级文件夹
+			gridlib.GRID_VALUE_STRING, #7级文件夹
 			gridlib.GRID_VALUE_STRING, #文件路径
 			]
 

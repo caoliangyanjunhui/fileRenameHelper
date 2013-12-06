@@ -5,6 +5,7 @@ from localEncode import localEncodeText, unicodeFromLocalEncode, dictToUnicode
 from pathHelper import pathJoin, parentPath, rename
 
 class FileReader(object):
+	levelMax = 7
 	def fileUnderPath(self, folderPath, folderName='', level=1, fileList=[]):
 		children = os.listdir(localEncodeText(folderPath))
 		for child in children:
@@ -21,26 +22,40 @@ class FileReader(object):
 				fileDict['folderName'] = folderName
 				fileDict['folderPath'] = folderPath
 				fileDict['level'] = level
-				fileDict['level2Name'] = ''
-				fileDict['level3Name'] = ''
-				if level == 2: fileDict['level2Name'] = folderName 
-				if level == 3: 
-					fileDict['level2Name'] = os.path.split( os.path.dirname( folderPath ) )[1] 
-					fileDict['level3Name'] = folderName
 				fileDict['newFilePath'] = ''
+				fileDict = self.setLevelsName(level, folderPath, fileDict)
 				fileDict = dictToUnicode(fileDict)
 				fileList.append(fileDict)
 			elif os.path.isdir(childPath):
 				fileList = self.fileUnderPath(childPath, child, level+1, fileList)
 		return fileList
 
+
+	def setLevelsName(self, level, folderPath, fileDict):
+		pathToSplit = folderPath
+		i = self.levelMax
+		while i > 0:
+			key = 'level' + str(i) + 'Name'
+			if i > level:
+				value = ''
+			else:
+				pathToSplit, value = os.path.split(pathToSplit)
+			fileDict[key] = value
+			i -= 1
+		return fileDict
+
 	def listToShow(self, fileList):
 		recordList = []
 		for fileDict in fileList:
 			record = [	fileDict['fileHead'], 
 						fileDict['newHead'], 
+						fileDict['level1Name'],
 						fileDict['level2Name'],
 						fileDict['level3Name'],
+						fileDict['level4Name'],
+						fileDict['level5Name'],
+						fileDict['level6Name'],
+						fileDict['level7Name'],
 						fileDict['filePath'],
 					]
 			recordList.append(record)
@@ -66,9 +81,8 @@ class FileReader(object):
 			fileDict['folderName'] = os.path.basename(folderPath)
 			fileDict['folderPath'] = os.path.dirname(filePath)
 			fileDict['level'] = 0
-			fileDict['level2Name'] = ''
-			fileDict['level3Name'] = ''
 			fileDict['newFilePath'] = ''
+			fileDict = self.setLevelsName(level=0, folderPath='', fileDict=fileDict)
 			fileDict = dictToUnicode(fileDict)
 			fileList.append(fileDict)
 		return fileList, self.listToShow(fileList)
@@ -169,22 +183,34 @@ class FileRename(object):
 		for fileDict in fileList:
 			record = [	fileDict['fileHead'], 
 						fileDict['newHead'], 
+						fileDict['level1Name'],
 						fileDict['level2Name'],
 						fileDict['level3Name'],
+						fileDict['level4Name'],
+						fileDict['level5Name'],
+						fileDict['level6Name'],
+						fileDict['level7Name'],
 						fileDict['filePath'],
 					]
 			recordList.append(record)
 		return recordList
 
 def test():
+	
 	folderPath = u'f:\\temp\\中文目录'
 	fileList, showList = FileReader().readAllFrom(folderPath)
 	print fileList
 	print showList
+	'''
 	print FileRename(fileList, {'newNameOperation':'replace', 'newName':u'new', 
 		'addNumOperation':'prefix', 'startNum':'001'}).preview()
 
 	print FileReader().readFiles(['f:\\temp\\111.txt', u'f:\\temp\\中文目录\\中文文件.txt'])
+	'''
+	folderPath = 'r\\1\\2\\3\\4\\5\\6\\7'
+	print FileReader().setLevelsName(7, folderPath, {})
+	folderPath = 'r\\1'
+	print FileReader().setLevelsName(1, folderPath, {})
 
 if __name__ == '__main__':
 	test()
