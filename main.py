@@ -118,7 +118,9 @@ class ClientFrame(wx.Frame):
 			return
 
 		try:
-			csvHandler.CSV().write(filePath, self.showList)
+			dataList = self.showList
+			dataList.insert(0, self.grid.getTitleList())
+			csvHandler.CSV().write(filePath, dataList)
 		except Exception, e:
 			self.infoText.SetValue(str(e))
 			self.showStatus(u'导出失败')

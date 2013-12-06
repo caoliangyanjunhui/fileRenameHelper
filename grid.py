@@ -132,6 +132,9 @@ class FileTableGrid(gridlib.Grid):
 		self.SetTable(table)
 		self.AutoSizeColumns(True)
 
+	def getTitleList(self):
+		return self.GetTable().colLabels
+
 #---------------------------------------------------------------------------
 import wx
 class TestFrame(wx.Frame):
